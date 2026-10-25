@@ -1,9 +1,8 @@
 # Generated outputs (cleaned CSVs, dashboards, metrics)
 outputs/
 
-# The real Kaggle download (large, raw, never edited) — the bundled
-# sample CSV is intentionally committed, so it is NOT ignored here.
-data/Bengaluru_House_Data.csv
+# The real Kaggle dataset (CC0-1.0, 13,320 rows) is committed so the
+# project runs end-to-end from a fresh clone.
 
 # Python
 __pycache__/

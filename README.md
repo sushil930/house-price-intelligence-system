@@ -6,6 +6,51 @@ house price data. It takes a raw listings CSV through cleaning,
 preprocessing, exploratory analysis and inference, visualization, and
 a trained multiple linear regression model.
 
+## Pipeline & architecture
+
+```mermaid
+flowchart TD
+    subgraph IN["Input"]
+        RAW["Raw CSV<br/>area_type, availability, location,<br/>size, society, total_sqft,<br/>bath, balcony, price"]
+    end
+    subgraph PIPE["Pipeline (run_pipeline.py + src/house_price/pipeline.py)"]
+        P1["Phase 1 - Unit I<br/>Load, profile, clean<br/>loading - parsing - cleaning"]
+        P2["Phase 2 - Unit II<br/>price per sqft, outlier filter,<br/>sampling, encoding<br/>preprocessing"]
+        P3["Phase 3 - Unit III<br/>Feature engineering,<br/>EDA, hypothesis tests<br/>eda_stats"]
+        P4["Phase 4 - Unit IV<br/>Matplotlib + Seaborn<br/>dashboards, pair plot<br/>visualization"]
+        P5["Phase 5 - Unit V<br/>Split, simple + multiple<br/>regression, VIF, KMeans<br/>modeling"]
+        P1 --> P2 --> P3 --> P4 --> P5
+    end
+    subgraph OUT["Outputs (outputs/)"]
+        CSV["phase1_clean.csv<br/>phase2_features.csv<br/>phase3_eda.csv"]
+        PNG["matplotlib_dashboard.png<br/>seaborn_dashboard.png<br/>pairplot.png, facetgrid.png<br/>residual_plot.png"]
+        MET["metrics.json<br/>stats, test results,<br/>MSE, R-squared, skip reasons"]
+    end
+    subgraph APP["Optional dashboard (app.py)"]
+        UI["Streamlit app<br/>3 charts + price-prediction form<br/>reuses the same cleaning,<br/>preprocessing and modelling code"]
+    end
+    RAW --> P1
+    P1 --> CSV
+    P2 --> CSV
+    P3 --> CSV
+    P4 --> PNG
+    P5 --> PNG
+    P5 --> MET
+    CSV --> UI
+```
+
+How it flows, with the verified numbers from the real dataset
+(13,320 rows): Phase 1 drops rows with missing essentials
+(13,320 → 13,303) and writes `phase1_clean.csv`; Phase 2 adds
+`price_per_sqft`, removes outliers (→ 12,028), samples, then encodes
+categoricals and writes `phase2_features.csv`; Phase 3 engineers
+features and runs the stats/inference suite, writing
+`phase3_eda.csv`; Phase 4 renders the dashboards; Phase 5 splits the
+data 6953/2318/2318 (train/validation/test), fits the regressions and
+writes every metric to `metrics.json`. The Streamlit app is a
+separate entry point that reads cleaned data and reuses the same
+modules for its charts and prediction form.
+
 ## Syllabus mapping
 
 | Unit | What the project does | Where |
@@ -34,9 +79,8 @@ On the bundled sample (no Kaggle account needed):
 python run_pipeline.py --sample
 ```
 
-On the real Kaggle CSV (free Kaggle account; search "Bengaluru House
-Price Data"; the file should appear as `Bengaluru_House_Data.csv`
-after unzipping):
+On the real Kaggle CSV (already included in `data/` — Kaggle's
+"Bengaluru House Price Data", CC0-1.0):
 
 ```bash
 python run_pipeline.py data/Bengaluru_House_Data.csv --out-dir outputs
@@ -90,12 +134,13 @@ mishandled units. This project uses the corrected conversions:
   are skipped (groups too small), VIF is skipped (fewer training rows
   than features), KMeans is skipped, and R² is `null` because a
   single test point cannot define it. All of these are recorded in
-  `metrics.json` with reasons; none are faked. They run properly on
-  the full ~13,000-row Kaggle dataset.
-- **Real Kaggle CSV not verified here.** No Kaggle credentials were
-  available during development, so the pipeline was verified
-  end-to-end on the sample only. The code accepts any CSV with the
-  same 9 columns.
+  `metrics.json` with reasons; none are faked.
+- **Real Kaggle CSV verified.** The full dataset was downloaded
+  from Kaggle on 2026-10-25 and run end-to-end: 13,320 → 13,303
+  rows after cleaning → 12,028 after outlier filtering,
+  train/validation/test 6953/2318/2318, multiple-regression test
+  MSE 1915.18 and test R² 0.541. On it, the t-test, ANOVA, VIF and
+  KMeans all run properly.
 - **No database, auth, or API server.** The data is a local CSV and
   there are no users or external services, so those components do
   not apply to this project and were deliberately not invented.

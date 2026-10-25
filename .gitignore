@@ -1,0 +1,19 @@
+# Generated outputs (cleaned CSVs, dashboards, metrics)
+outputs/
+
+# The real Kaggle download (large, raw, never edited) — the bundled
+# sample CSV is intentionally committed, so it is NOT ignored here.
+data/Bengaluru_House_Data.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets (none are needed by this project)
+.env
+
+# OS
+.DS_Store

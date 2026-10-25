@@ -1,0 +1,11 @@
+# Pinned to the versions actually used and verified in this project.
+pandas==3.1.0
+numpy==2.5.4
+matplotlib==3.11.2
+seaborn==0.13.2
+scikit-learn==1.9.1
+scipy==1.18.1
+# Test runner (not needed to run the pipeline itself).
+pytest==9.1.1
+# Optional dashboard only (app.py); the pipeline does not need it.
+streamlit==1.66.1

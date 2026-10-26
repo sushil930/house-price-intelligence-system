@@ -1,10 +1,15 @@
 # 🏠 House Price Intelligence System
 
-One end-to-end data-science project covering **all five units** of the
-'Data Science using Python' (CAPCTD3) syllabus, built on Bengaluru
-house price data. It takes a raw listings CSV through cleaning,
-preprocessing, exploratory analysis and inference, visualization, and
-a trained multiple linear regression model.
+A project for the MCA 3rd Semester Python subject — 'Data Science
+using Python' (CAPCTD3) — covering **all five units** of the syllabus,
+built on Bengaluru house price data. It takes a raw listings CSV
+through cleaning, preprocessing, exploratory analysis and inference,
+visualization, and a trained multiple linear regression model.
+
+## Team
+
+- Sushil Patel
+- Sonal Dhruw
 
 ## Pipeline & architecture
 
@@ -121,3 +126,7 @@ mishandled units. This project uses the corrected conversions:
 - **No model is persisted.** The pipeline trains fresh on each run
   and reports metrics; the optional Streamlit app (`app.py`) does the
   same at startup.
+
+## Contributors
+
+- Sushil Patel ([@sushil930](https://github.com/sushil930))

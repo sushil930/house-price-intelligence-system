@@ -23,20 +23,27 @@ st.set_page_config(page_title="House Price Intelligence", layout="wide")
 st.markdown(
     """
     <style>
-    .hero {
-        padding: 1.4rem 1.6rem; border-radius: 18px;
-        background: linear-gradient(135deg, #1f2a44 0%, #3b2d5c 100%);
-        margin-bottom: 1.5rem;
+    /* Fit the whole dashboard in one viewport: compact spacing so
+    the page never needs to scroll. */
+    div.block-container {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0 !important;
     }
-    .hero h1 { margin: 0 0 0.4rem 0; font-size: 2rem; }
-    .hero p { margin: 0; opacity: 0.85; }
-    .kpi-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+    h3 { margin-top: 0.2rem !important; margin-bottom: 0.4rem !important; }
+    .hero {
+        padding: 0.8rem 1.2rem; border-radius: 18px;
+        background: linear-gradient(135deg, #1f2a44 0%, #3b2d5c 100%);
+        margin-bottom: 0.7rem;
+    }
+    .hero h1 { margin: 0 0 0.2rem 0; font-size: 1.45rem; }
+    .hero p { margin: 0; opacity: 0.85; font-size: 0.9rem; }
+    .kpi-row { display: flex; gap: 1rem; margin-bottom: 0.7rem; }
     .kpi-card {
-        flex: 1; padding: 1rem 1.2rem; border-radius: 14px;
+        flex: 1; padding: 0.7rem 1rem; border-radius: 14px;
         background: #1a1f2e; border: 1px solid #2a3248;
     }
     .kpi-label { font-size: 0.85rem; opacity: 0.7; margin-bottom: 0.3rem; }
-    .kpi-value { font-size: 1.5rem; font-weight: 700; }
+    .kpi-value { font-size: 1.3rem; font-weight: 700; }
     .result-card {
         padding: 1.4rem 1.6rem; border-radius: 18px;
         background: linear-gradient(135deg, #0f5132 0%, #146c43 100%);
@@ -106,7 +113,7 @@ st.markdown(
 )
 
 st.subheader("Charts")
-fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+fig, axes = plt.subplots(1, 3, figsize=(15, 2.9))
 fig.patch.set_facecolor("#0e1117")
 for ax in axes:
     ax.set_facecolor("#0e1117")
@@ -127,7 +134,7 @@ med = eda.groupby("bhk")["price"].median().sort_index()
 axes[2].bar(med.index.astype(str), med.values, color="#fdcb6e")
 axes[2].set_title("Median price by BHK")
 axes[2].set_xlabel("BHK")
-fig.tight_layout()
+fig.tight_layout(pad=0.6)
 st.pyplot(fig)
 
 st.sidebar.header("🔍 Predict a price")

@@ -1,0 +1,260 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="820" viewBox="0 0 1760 820">
+  <title>House price prediction pipeline — animated flow diagram</title>
+  <desc>Raw CSV flows left-to-right through five phases (load, preprocess, EDA, visualize, model) into CSV tables, PNG charts and metrics.json, with an optional Streamlit dashboard fed by the phase CSVs. A glowing data dot loops through the pipeline every 13 seconds.</desc>
+
+  <defs>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.3" fill="#E9EEF4"/>
+    </pattern>
+    <marker id="arr" viewBox="0 0 9 9" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+
+    .flow { stroke: #94A3B8; stroke-width: 2; fill: none; stroke-dasharray: 5 7; animation: dash 0.9s linear infinite; }
+    .flow-slow { animation-duration: 1.7s; }
+    @keyframes dash { to { stroke-dashoffset: -12; } }
+
+    .hl { opacity: 0; fill: rgba(76,110,245,0.07); stroke: #4C6EF5; stroke-width: 2; }
+
+    .dot { animation: travel 13s linear infinite; }
+    .glow { animation: glow 1.5s ease-in-out infinite; }
+    @keyframes glow { 0%,100% { opacity: 0.12; } 50% { opacity: 0.30; } }
+
+    @keyframes travel {
+      0%       { transform: translateX(148px);  opacity: 0; }
+      1.5%     { opacity: 1; }
+      8.462%   { transform: translateX(148px); }
+      15.256%  { transform: translateX(422px); }
+      23.718%  { transform: translateX(422px); }
+      30.513%  { transform: translateX(654px); }
+      38.974%  { transform: translateX(654px); }
+      45.769%  { transform: translateX(886px); }
+      54.231%  { transform: translateX(886px); }
+      61.026%  { transform: translateX(1118px); }
+      69.487%  { transform: translateX(1118px); }
+      76.282%  { transform: translateX(1350px); }
+      84.744%  { transform: translateX(1350px); }
+      91.538%  { transform: translateX(1560px); }
+      96.5%    { opacity: 1; }
+      100%     { transform: translateX(1560px); opacity: 0; }
+    }
+
+    .hl-in  { animation: hlIn  13s linear infinite; }
+    .hl-p1  { animation: hlP1  13s linear infinite; }
+    .hl-p2  { animation: hlP2  13s linear infinite; }
+    .hl-p3  { animation: hlP3  13s linear infinite; }
+    .hl-p4  { animation: hlP4  13s linear infinite; }
+    .hl-p5  { animation: hlP5  13s linear infinite; }
+    .hl-out { animation: hlOut 13s linear infinite; }
+
+    @keyframes hlIn  { 0% {opacity:1} 8.462% {opacity:1} 11% {opacity:0} 100% {opacity:0} }
+    @keyframes hlP1  { 0%,15% {opacity:0} 15.8% {opacity:1} 23.5% {opacity:1} 24.9%,100% {opacity:0} }
+    @keyframes hlP2  { 0%,30.2% {opacity:0} 31.1% {opacity:1} 38.7% {opacity:1} 40.2%,100% {opacity:0} }
+    @keyframes hlP3  { 0%,45.5% {opacity:0} 46.4% {opacity:1} 54% {opacity:1} 55.5%,100% {opacity:0} }
+    @keyframes hlP4  { 0%,60.7% {opacity:0} 61.6% {opacity:1} 69.2% {opacity:1} 70.7%,100% {opacity:0} }
+    @keyframes hlP5  { 0%,76% {opacity:0} 76.9% {opacity:1} 84.5% {opacity:1} 86%,100% {opacity:0} }
+    @keyframes hlOut { 0%,91.2% {opacity:0} 92.1% {opacity:1} 98% {opacity:1} 100% {opacity:0} }
+
+    .breathe { animation: breathe 3.4s ease-in-out infinite; }
+    @keyframes breathe { 0%,100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.5; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dot { display: none; }
+      .flow, .glow, .breathe { animation: none; }
+      .hl { animation: none; opacity: 0; }
+    }
+  </style>
+
+  <!-- ======================= BACKGROUND ======================= -->
+  <rect x="0" y="0" width="1760" height="820" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1760" height="820" fill="url(#dots)" opacity="0.55"/>
+
+  <!-- ======================= HEADER ======================= -->
+  <text x="48" y="66" font-size="26" font-weight="700" fill="#0F172A">House Price Prediction Pipeline</text>
+  <text x="48" y="94" font-size="13" fill="#64748B">How one script turns a raw CSV into a trained model, charts and metrics — follow the moving dot</text>
+
+  <!-- Legend -->
+  <rect x="1334" y="44" width="382" height="34" rx="17" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <rect x="1350" y="54" width="14" height="14" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="1370" y="65.5" font-size="11" fill="#334155">Input</text>
+  <rect x="1416" y="54" width="14" height="14" rx="4" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="1436" y="65.5" font-size="11" fill="#334155">Pipeline</text>
+  <rect x="1504" y="54" width="14" height="14" rx="4" fill="#F0FDF4" stroke="#10B981" stroke-width="1.5"/>
+  <text x="1524" y="65.5" font-size="11" fill="#334155">Outputs</text>
+  <rect x="1590" y="54" width="14" height="14" rx="4" fill="#FFF7ED" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <text x="1610" y="65.5" font-size="11" fill="#334155">App · optional</text>
+
+  <!-- ======================= CONNECTORS ======================= -->
+  <path class="flow" d="M254 302 H314" marker-end="url(#arr)"/>
+  <path class="flow" d="M530 302 H546" marker-end="url(#arr)"/>
+  <path class="flow" d="M762 302 H778" marker-end="url(#arr)"/>
+  <path class="flow" d="M994 302 H1010" marker-end="url(#arr)"/>
+  <path class="flow" d="M1226 302 H1242" marker-end="url(#arr)"/>
+  <path class="flow" d="M1478 302 H1524" marker-end="url(#arr)"/>
+  <path class="flow flow-slow" d="M1623 476 V635 H1206" marker-end="url(#arr)" opacity="0.85"/>
+
+  <!-- connector tags -->
+  <rect x="1472" y="270" width="58" height="16" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <text class="mono" x="1501" y="281.5" text-anchor="middle" font-size="9" fill="#64748B">outputs/</text>
+  <text class="mono" x="1414" y="622" text-anchor="middle" font-size="9.5" fill="#64748B">phase CSVs → app</text>
+
+  <!-- ======================= PIPELINE CONTAINER ======================= -->
+  <rect x="300" y="150" width="1172" height="272" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="324" y="184" font-size="12" font-weight="700" letter-spacing="1.5" fill="#475569">PIPELINE</text>
+  <rect x="412" y="167" width="282" height="20" rx="10" fill="#EEF2FF" stroke="#C7D2FE"/>
+  <text class="mono" x="422" y="181" font-size="9.5" fill="#4C6EF5">run_pipeline.py + src/house_price/pipeline.py</text>
+
+  <!-- ======================= INPUT CARD ======================= -->
+  <rect x="48" y="212" width="200" height="180" rx="12" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <g transform="translate(70,231) scale(0.92)" fill="none" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="4.5" width="18" height="15" rx="2"/>
+    <path d="M3 9.5h18M12 9.5V19.5"/>
+  </g>
+  <text x="104" y="250" font-size="15" font-weight="700" fill="#0F172A">Raw CSV</text>
+  <rect x="70" y="262" width="108" height="20" rx="10" fill="#DBEAFE" stroke="#BFDBFE"/>
+  <text class="mono" x="124" y="275.5" text-anchor="middle" font-size="9" fill="#1E40AF">run_pipeline.py →</text>
+  <text class="mono" x="70" y="334" font-size="9" fill="#475569">area_type · availability</text>
+  <text class="mono" x="70" y="348" font-size="9" fill="#475569">location · size · society</text>
+  <text class="mono" x="70" y="362" font-size="9" fill="#475569">total_sqft · bath</text>
+  <text class="mono" x="70" y="376" font-size="9" fill="#475569">balcony · price</text>
+
+  <!-- ======================= PHASE CARDS ======================= -->
+  <!-- Phase 1 -->
+  <rect x="320" y="212" width="204" height="180" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="346" cy="242" r="13" fill="#BFDBFE"/>
+  <text x="346" y="246.5" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">1</text>
+  <g transform="translate(478,219) scale(0.92)" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="12" cy="5.5" rx="7" ry="2.7"/>
+    <path d="M5 5.5v13c0 1.5 3.1 2.7 7 2.7s7-1.2 7-2.7v-13"/>
+    <path d="M5 12c0 1.5 3.1 2.7 7 2.7s7-1.2 7-2.7"/>
+  </g>
+  <text x="342" y="290" font-size="15" font-weight="700" fill="#0F172A">Load &amp; Clean</text>
+  <text x="342" y="322" font-size="10" fill="#64748B">load · profile · clean</text>
+  <rect x="342" y="336" width="54" height="20" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+  <text class="mono" x="350" y="349.5" font-size="9" fill="#475569">loading</text>
+
+  <!-- Phase 2 -->
+  <rect x="552" y="212" width="204" height="180" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="578" cy="242" r="13" fill="#93C5FD"/>
+  <text x="578" y="246.5" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">2</text>
+  <g transform="translate(710,219) scale(0.92)" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 5h16l-6.2 7.2v5.6L10.2 20v-7.8L4 5z"/>
+  </g>
+  <text x="574" y="290" font-size="15" font-weight="700" fill="#0F172A">Preprocess</text>
+  <text x="574" y="322" font-size="10" fill="#64748B">outliers · sampling · encode</text>
+  <rect x="574" y="336" width="86" height="20" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+  <text class="mono" x="582" y="349.5" font-size="9" fill="#475569">preprocessing</text>
+
+  <!-- Phase 3 -->
+  <rect x="784" y="212" width="204" height="180" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="810" cy="242" r="13" fill="#60A5FA"/>
+  <text x="810" y="246.5" text-anchor="middle" font-size="12" font-weight="700" fill="#1E3A8A">3</text>
+  <g transform="translate(942,219) scale(0.92)" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="10.5" cy="10.5" r="5.7"/>
+    <path d="M14.8 14.8 20 20"/>
+  </g>
+  <text x="806" y="290" font-size="15" font-weight="700" fill="#0F172A">EDA &amp; Stats</text>
+  <text x="806" y="322" font-size="10" fill="#64748B">features · EDA · tests</text>
+  <rect x="806" y="336" width="65" height="20" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+  <text class="mono" x="814" y="349.5" font-size="9" fill="#475569">eda_stats</text>
+
+  <!-- Phase 4 -->
+  <rect x="1016" y="212" width="204" height="180" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="1042" cy="242" r="13" fill="#3B82F6"/>
+  <text x="1042" y="246.5" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">4</text>
+  <g transform="translate(1174,219) scale(0.92)" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h16"/>
+    <path d="M8 20v-7M12.5 20V8M17 20v-4.5"/>
+  </g>
+  <text x="1038" y="290" font-size="15" font-weight="700" fill="#0F172A">Visualize</text>
+  <text x="1038" y="322" font-size="10" fill="#64748B">Matplotlib · Seaborn</text>
+  <rect x="1038" y="336" width="86" height="20" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+  <text class="mono" x="1046" y="349.5" font-size="9" fill="#475569">visualization</text>
+
+  <!-- Phase 5 -->
+  <rect x="1248" y="212" width="204" height="180" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <circle cx="1274" cy="242" r="13" fill="#2563EB"/>
+  <text x="1274" y="246.5" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">5</text>
+  <g transform="translate(1406,219) scale(0.92)" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6" cy="6" r="2.3"/>
+    <circle cx="6" cy="18" r="2.3"/>
+    <circle cx="18" cy="12" r="2.3"/>
+    <path d="M8 7.2 15.9 11M8 16.8 15.9 13M6 8.3v7.4"/>
+  </g>
+  <text x="1270" y="290" font-size="15" font-weight="700" fill="#0F172A">Model</text>
+  <text x="1270" y="322" font-size="10" fill="#64748B">regression · VIF · KMeans</text>
+  <rect x="1270" y="336" width="59" height="20" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+  <text class="mono" x="1278" y="349.5" font-size="9" fill="#475569">modeling</text>
+
+  <!-- ======================= OUTPUT CARD ======================= -->
+  <rect x="1530" y="170" width="186" height="300" rx="12" fill="#F0FDF4" stroke="#10B981" stroke-width="1.5"/>
+  <text x="1552" y="202" font-size="15" font-weight="700" fill="#0F172A">Outputs</text>
+
+  <g transform="translate(1552,222) scale(0.8)" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 3h7l4 4v14H7z"/>
+    <path d="M14 3v4h4"/>
+    <path d="M10 13.5h5M10 16.5h5"/>
+  </g>
+  <text x="1580" y="236" font-size="12" font-weight="700" fill="#065F46">CSV tables</text>
+  <text class="mono" x="1580" y="255" font-size="9" fill="#4B5563">phase1_clean.csv</text>
+  <text class="mono" x="1580" y="268.5" font-size="9" fill="#4B5563">phase2_features.csv</text>
+  <text class="mono" x="1580" y="282" font-size="9" fill="#4B5563">phase3_eda.csv</text>
+  <line x1="1552" y1="296" x2="1694" y2="296" stroke="#D1FAE5" stroke-width="1"/>
+
+  <g transform="translate(1552,312) scale(0.8)" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3.5" y="5" width="17" height="14" rx="2"/>
+    <circle cx="8.5" cy="9.5" r="1.5"/>
+    <path d="M6.5 16.5 10 13l3 3 2.5-2.5 3.5 3.5"/>
+  </g>
+  <text x="1580" y="326" font-size="12" font-weight="700" fill="#065F46">Charts · PNG</text>
+  <text class="mono" x="1580" y="345" font-size="9" fill="#4B5563">dashboards · pairplot</text>
+  <text class="mono" x="1580" y="358.5" font-size="9" fill="#4B5563">facetgrid · residuals</text>
+  <line x1="1552" y1="374" x2="1694" y2="374" stroke="#D1FAE5" stroke-width="1"/>
+
+  <g transform="translate(1552,388) scale(0.8)" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.5 4C7.8 4 7 4.9 7 6.5v2.3C7 10 6.3 10.9 5 11.4c1.3.5 2 1.4 2 2.6v3.5C7 19.1 7.8 20 9.5 20"/>
+    <path d="M14.5 4c1.7 0 2.5.9 2.5 2.5v2.3c0 1.2.7 2.1 2 2.6-1.3.5-2 1.4-2 2.6v3.5c0 1.6-.8 2.5-2.5 2.5"/>
+  </g>
+  <text x="1580" y="402" font-size="12" font-weight="700" fill="#065F46">metrics.json</text>
+  <text class="mono" x="1580" y="421" font-size="9" fill="#4B5563">MSE · R² · tests</text>
+  <text class="mono" x="1580" y="434.5" font-size="9" fill="#4B5563">skip reasons</text>
+
+  <!-- ======================= APP CARD (OPTIONAL) ======================= -->
+  <rect class="breathe" x="560" y="560" width="640" height="150" rx="12" fill="#FFF7ED" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <g transform="translate(586,586) scale(0.92)" fill="none" stroke="#B45309" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="4.5" width="18" height="15" rx="2"/>
+    <path d="M3 9h18"/>
+    <circle cx="6" cy="6.8" r="0.5" fill="#B45309" stroke="none"/>
+    <circle cx="8.4" cy="6.8" r="0.5" fill="#B45309" stroke="none"/>
+    <path d="M6.5 16.5 9.5 13.5l2.5 2 3-3.5 2.5 2"/>
+  </g>
+  <text x="624" y="604" font-size="15" font-weight="700" fill="#0F172A">Optional dashboard — app.py</text>
+  <text x="624" y="630" font-size="11" fill="#64748B">Streamlit app · 3 charts + price-prediction form</text>
+  <text x="624" y="652" font-size="11" fill="#64748B">reuses the same cleaning · preprocessing · modelling code</text>
+  <rect x="1084" y="576" width="88" height="20" rx="10" fill="#FEF3C7" stroke="#FDE68A"/>
+  <text x="1128" y="589.5" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1.5" fill="#B45309">OPTIONAL</text>
+
+  <!-- ======================= HIGHLIGHT HALOS ======================= -->
+  <rect class="hl hl-in"  x="48"   y="212" width="200" height="180" rx="12"/>
+  <rect class="hl hl-p1"  x="320"  y="212" width="204" height="180" rx="12"/>
+  <rect class="hl hl-p2"  x="552"  y="212" width="204" height="180" rx="12"/>
+  <rect class="hl hl-p3"  x="784"  y="212" width="204" height="180" rx="12"/>
+  <rect class="hl hl-p4"  x="1016" y="212" width="204" height="180" rx="12"/>
+  <rect class="hl hl-p5"  x="1248" y="212" width="204" height="180" rx="12"/>
+  <rect class="hl hl-out" x="1530" y="170" width="186" height="300" rx="12"/>
+
+  <!-- ======================= DATA DOT ======================= -->
+  <g class="dot">
+    <circle class="glow" cx="0" cy="302" r="11" fill="#4C6EF5"/>
+    <circle cx="0" cy="302" r="6.5" fill="#4C6EF5" stroke="#FFFFFF" stroke-width="1.5"/>
+  </g>
+
+  <!-- ======================= FOOTER ======================= -->
+  <text x="48" y="782" font-size="11" fill="#94A3B8">Follow the dot — it loops through all 5 phases every 13 seconds</text>
+  <text class="mono" x="1712" y="782" text-anchor="end" font-size="10" fill="#C3CEDA">5 phases · 3 outputs · 1 optional app</text>
+</svg>

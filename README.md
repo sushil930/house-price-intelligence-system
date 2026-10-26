@@ -8,36 +8,7 @@ a trained multiple linear regression model.
 
 ## Pipeline & architecture
 
-```mermaid
-flowchart TD
-    subgraph IN["Input"]
-        RAW["Raw CSV<br/>area_type, availability, location,<br/>size, society, total_sqft,<br/>bath, balcony, price"]
-    end
-    subgraph PIPE["Pipeline (run_pipeline.py + src/house_price/pipeline.py)"]
-        P1["Phase 1 - Unit I<br/>Load, profile, clean<br/>loading - parsing - cleaning"]
-        P2["Phase 2 - Unit II<br/>price per sqft, outlier filter,<br/>sampling, encoding<br/>preprocessing"]
-        P3["Phase 3 - Unit III<br/>Feature engineering,<br/>EDA, hypothesis tests<br/>eda_stats"]
-        P4["Phase 4 - Unit IV<br/>Matplotlib + Seaborn<br/>dashboards, pair plot<br/>visualization"]
-        P5["Phase 5 - Unit V<br/>Split, simple + multiple<br/>regression, VIF, KMeans<br/>modeling"]
-        P1 --> P2 --> P3 --> P4 --> P5
-    end
-    subgraph OUT["Outputs (outputs/)"]
-        CSV["phase1_clean.csv<br/>phase2_features.csv<br/>phase3_eda.csv"]
-        PNG["matplotlib_dashboard.png<br/>seaborn_dashboard.png<br/>pairplot.png, facetgrid.png<br/>residual_plot.png"]
-        MET["metrics.json<br/>stats, test results,<br/>MSE, R-squared, skip reasons"]
-    end
-    subgraph APP["Optional dashboard (app.py)"]
-        UI["Streamlit app<br/>3 charts + price-prediction form<br/>reuses the same cleaning,<br/>preprocessing and modelling code"]
-    end
-    RAW --> P1
-    P1 --> CSV
-    P2 --> CSV
-    P3 --> CSV
-    P4 --> PNG
-    P5 --> PNG
-    P5 --> MET
-    CSV --> UI
-```
+![House price prediction pipeline](house_price_pipeline_animated.svg)
 
 How it flows, with the verified numbers from the real dataset
 (13,320 rows): Phase 1 drops rows with missing essentials

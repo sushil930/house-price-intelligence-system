@@ -101,8 +101,10 @@ streamlit run app.py
 ```
 
 Shows three key charts and a price-prediction form, using the same
-cleaning/preprocessing/modelling code as the pipeline. The demo model
-is trained on the bundled sample, so predictions are illustrative only.
+cleaning/preprocessing/modelling code as the pipeline. The model is
+trained on the full real dataset (12,028 listings after cleaning and
+outlier filtering), so predictions reflect the real-data model
+(test R² 0.541), not the tiny bundled sample.
 
 ## Run the tests
 

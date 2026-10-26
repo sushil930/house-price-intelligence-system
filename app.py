@@ -1,10 +1,9 @@
-"""Minimal Streamlit dashboard (stretch goal).
+"""Streamlit dashboard.
 
-Loads the bundled sample data, runs the same cleaning, preprocessing
-and modelling code as the pipeline, shows three key charts, and offers
-a price-prediction form. The demo model is trained on all cleaned
-sample rows (the sample is tiny, so predictions are illustrative
-only -- see the README limitations).
+Loads the real Bengaluru dataset, runs the same cleaning,
+preprocessing and modelling code as the pipeline, shows three key
+charts, and offers a price-prediction form. The model is trained on
+all cleaned, outlier-filtered real listings (see the README).
 
 Run with:  streamlit run app.py
 """
@@ -30,8 +29,10 @@ st.write(
 
 @st.cache_data
 def load_and_train():
-    """Run cleaning + preprocessing + modelling on the sample data."""
-    raw = loading.load_csv(Path(__file__).parent / "data" / "sample_bengaluru.csv")
+    """Run cleaning + preprocessing + modelling on the real data."""
+    raw = loading.load_csv(
+        Path(__file__).parent / "data" / "Bengaluru_House_Data.csv"
+    )
     clean, _ = cleaning.phase1_clean(raw)
     with_pps = preprocessing.add_price_per_sqft(clean)
     filtered, _ = preprocessing.apply_outlier_filter(with_pps)
@@ -73,7 +74,7 @@ with st.form("predict"):
     bath = st.number_input("Bathrooms", min_value=1, max_value=10, value=2)
     balcony = st.number_input("Balconies", min_value=0, max_value=5, value=1)
     tier = st.selectbox(
-        "Location tier (0 = budget … 2 = luxury on this sample)",
+        "Location tier (0 = budget … 3 = luxury)",
         options=sorted(eda["location_tier"].unique().tolist()),
     )
     super_built = st.checkbox("Super built-up area", value=True)
@@ -97,4 +98,4 @@ if submitted:
     X_new = pd.DataFrame([[row[c] for c in features]], columns=features)
     price = float(model.predict(X_new)[0])
     st.success(f"Estimated price: **{price:.2f} lakh** "
-               f"(illustrative — trained on only {len(X)} sample rows)")
+               f"(model trained on {len(X)} real listings)")

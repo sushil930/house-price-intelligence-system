@@ -126,7 +126,3 @@ mishandled units. This project uses the corrected conversions:
 - **No model is persisted.** The pipeline trains fresh on each run
   and reports metrics; the optional Streamlit app (`app.py`) does the
   same at startup.
-
-## Contributors
-
-- Sushil Patel ([@sushil930](https://github.com/sushil930))

@@ -8,8 +8,8 @@ visualization, and a trained multiple linear regression model.
 
 ## Team
 
-- Sushil Patel
-- Sonal Dhruw
+- [Sushil Patel](https://github.com/sushil930) — [@sushil930](https://github.com/sushil930)
+- [Sonal Dhruw](https://github.com/dhruwsonal) — [@dhruwsonal](https://github.com/dhruwsonal)
 
 ## Pipeline & architecture
 
@@ -31,11 +31,11 @@ modules for its charts and prediction form.
 
 | Unit | What the project does | Where |
 |---|---|---|
-| I — Python, NumPy, Pandas | CSV loading, shape/dtypes/missing-value reports, NumPy indexing/slicing/reshaping/broadcasting on prices, `.loc`/`.iloc` selection, first cleaning pass | `src/house_price/loading.py`, `cleaning.py`, `parsing.py` |
-| II — Preprocessing | Measurement levels, label + one-hot/dummy encoding, null handling, IQR & Z-score outlier filtering, mean/variance/std/covariance, Gaussian KS check, random + stratified sampling | `src/house_price/preprocessing.py` |
-| III — Stats & inference | Descriptive stats, IQR, skewness, kurtosis, uni/bi/multivariate EDA, correlation, feature engineering, Bayes' theorem, Poisson/binomial distributions, CLT bootstrap CI, t-test, Z-test, one-way ANOVA | `src/house_price/eda_stats.py` |
+| I — Python, NumPy, Pandas | CSV loading, shape/dtypes/missing-value reports, NumPy indexing/slicing/reshaping/broadcasting on prices, `.loc`/`.iloc` selection, first cleaning pass | `src/house_price/` |
+| II — Preprocessing | Measurement levels, label + one-hot/dummy encoding, null handling, IQR & Z-score outlier filtering, mean/variance/std/covariance, Gaussian KS check, random + stratified sampling | `src/house_price/` |
+| III — Stats & inference | Descriptive stats, IQR, skewness, kurtosis, uni/bi/multivariate EDA, correlation, feature engineering, Bayes' theorem, Poisson/binomial distributions, CLT bootstrap CI, t-tests and ANOVA | `src/house_price/` |
 | IV — Visualization | Matplotlib line/scatter/bar/hist/box plots with subplots; Seaborn distribution, relational, categorical plots, heatmap, pair plot, FacetGrid | `src/house_price/visualization.py` |
-| V — Regression | Train/validation/test split, simple + multiple linear regression, residual plot, VIF multicollinearity check (via scikit-learn OLS), MSE & R², plus an optional KMeans market-segmentation touch | `src/house_price/modeling.py` |
+| V — Regression | Train/validation/test split, simple + multiple linear regression, residual plot, VIF multicollinearity check (via scikit-learn OLS), MSE & R², plus an optional KMeans market-segmentation analysis | `src/house_price/` |
 
 ## Setup
 
@@ -121,8 +121,8 @@ mishandled units. This project uses the corrected conversions:
   MSE 1915.18 and test R² 0.541. On it, the t-test, ANOVA, VIF and
   KMeans all run properly.
 - **No database, auth, or API server.** The data is a local CSV and
-  there are no users or external services, so those components do
-  not apply to this project and were deliberately not invented.
+  there are no users or external services, so those components
+  do not apply to this project and were deliberately not invented.
 - **No model is persisted.** The pipeline trains fresh on each run
   and reports metrics; the optional Streamlit app (`app.py`) does the
   same at startup.

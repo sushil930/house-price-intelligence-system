@@ -100,7 +100,8 @@ Outputs (all under `outputs/`):
 streamlit run app.py
 ```
 
-Shows three key charts and a price-prediction form, using the same
+Shows three key charts and a sidebar price-prediction form with a
+styled result card, using the same
 cleaning/preprocessing/modelling code as the pipeline. The model is
 trained on the full real dataset (12,028 listings after cleaning and
 outlier filtering), so predictions reflect the real-data model

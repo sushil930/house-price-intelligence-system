@@ -11,6 +11,19 @@ visualization, and a trained multiple linear regression model.
 - [Sushil Patel](https://github.com/sushil930) — [@sushil930](https://github.com/sushil930)
 - [Sonal Dhruw](https://github.com/dhruwsonal) — [@dhruwsonal](https://github.com/dhruwsonal)
 
+## Tech Stack
+
+| Technology | Used for |
+|---|---|
+| Python | Programming language |
+| pandas, NumPy | Data loading, cleaning, and analysis |
+| Matplotlib, Seaborn | Pipeline charts and dashboards |
+| Altair | Interactive dashboard charts |
+| scikit-learn | Linear regression, KMeans segmentation |
+| SciPy | Statistical tests (t-test, ANOVA, KS test) |
+| Streamlit | Interactive dashboard app |
+| pytest, Ruff | Testing and linting |
+
 ## Pipeline & architecture
 
 ![House price prediction pipeline](house_price_pipeline_animated.svg)
